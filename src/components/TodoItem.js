@@ -6,22 +6,18 @@ import { useState } from "react";
 　・チェックボックスにチェックが入っているか管理する
 　・チェックボックスにチェックが入っているかアイテムをグレーアウトする
 */
-function TodoItem(props) {
-  const [style, changeStyle] = useState('panel-block');
+function TodoItem({item}) {
+  const [done, setDone] = useState(item.done);
   
   function clickCheckbox(){
-    props.item.done = !props.item.done;
-    if(props.item.done)
-      changeStyle('panel-block has-text-grey-light');
-    else {
-      changeStyle('panel-block');
-    }
+    item.done = !item.done;
+    setDone(!done);
   }
   
   return (
-    <label className={style}>
-      <input type="checkbox" onClick={clickCheckbox}/>
-      {props.item.text}
+    <label className={`panel-block ${done? 'has-text-grey-light' : ''}`}>
+      <input type="checkbox" checked={done} onClick={clickCheckbox}/>
+      {item.text}
     </label>
   );
 }

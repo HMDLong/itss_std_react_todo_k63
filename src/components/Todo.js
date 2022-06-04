@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+  import React, { useState } from 'react';
 
 /* 
   【Todoのデータ構成】
@@ -27,8 +27,27 @@ function Todo() {
     /* テストコード 終了 */
   ]);
 
+  const [filteredItems, putFilteredItems] = React.useState([]);
+
+  const tabs = [
+    { id: 1, text: '全て' },
+    { id: 2, text: '未完了'},
+    { id: 3, text: '完了'}
+  ];
+
+  const [activeTab, changeActiveTab] = useState(1);
+
   function addItems (new_item){
     putItems([...items, new_item])  
+  }
+
+  function checkItemByTab(item, tabId){
+    switch(tabId){
+      case 1: return true;
+      case 2: return !item.done;
+      case 3: return item.done;
+      default: return false;
+    }
   }
   
   return (
@@ -40,7 +59,20 @@ function Todo() {
           addItems={addItems}
         />
       }
-      {items.map(item => (
+      <div class="panel-block tabs is-centered">
+        <ul>
+          {
+            tabs.map(tab => (
+              <li class={tab.id === activeTab? 'is-active' : ''}>
+                <a onClick={() => {changeActiveTab(tab.id)}}>
+                  {tab.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      {items.filter(item => checkItemByTab(item, activeTab)).map(item => (
         <TodoItem
           key={item.key}
           item={item}

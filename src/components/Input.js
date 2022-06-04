@@ -7,17 +7,17 @@ import React, { useState } from 'react';
 
 import { getKey } from '../lib/util.js'
 
-function Input(props) {
+function Input({addItems}) {
   function onEnterPressed(event){
     if (event.key === 'Enter'){
       const new_todo = { key: getKey(), text: event.target.value, done: false};
-      props.addItems(new_todo);
+      addItems(new_todo);
     }
   }
 
   return (
     <div className="panel-block">
-      <input class='input' type='text' onKeyPress={(event) => onEnterPressed(event)}/>
+      <input class='input' type='text' onKeyPress={(e) => onEnterPressed(e)}/>
     </div>
   );
 }
